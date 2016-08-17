@@ -1,0 +1,27 @@
+// http://ionicframework.com/docs/v2/theming/
+// App Shared Imports
+// --------------------------------------------------
+// These are the imports which make up the design of this app.
+// By default each design mode includes these shared imports.
+// App Shared Sass variables belong in app.variables.scss.
+@import "../pages/generate/generate";
+@import "../pages/question/question";
+//generate margins from http://stackoverflow.com/a/22655462/5866781
+@mixin offset-margin($margin, $value) {
+    margin-#{$margin}: $value;
+}
+
+@for $i from 1 through 100 {
+    @each $margin in top,
+    left,
+    bottom,
+    right {
+        .margin-#{$margin}-#{$i} {
+            @include offset-margin($margin, 1px * $i)
+        }
+    }
+}
+
+.text-wrap {
+    white-space: pre-wrap;
+}

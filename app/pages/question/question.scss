@@ -1,0 +1,14 @@
+.question {}
+
+.legend {
+    font-weight: bolder;
+    font-size: 25px;
+}
+
+.question ion-card-header {
+    background-color: color($colors, light);
+}
+
+.selected {
+    background-color: color($colors, light);
+}

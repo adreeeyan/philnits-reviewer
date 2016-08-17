@@ -1,0 +1,26 @@
+.instructions {}
+
+.header {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 500;
+}
+
+.checkmark {
+    color: #64dd17;
+}
+
+.table {
+    $border-style: 1px solid #000;
+    border: $border-style;
+    padding: 0;
+    ion-row:first-of-type {
+        font-weight: bold;
+    }
+    ion-row {
+        border-bottom: $border-style;
+    }
+    ion-col:first-of-type {
+        border-right: $border-style;
+    }
+}
