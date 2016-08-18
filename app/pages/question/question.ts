@@ -1,9 +1,12 @@
+import * as _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, MenuController } from 'ionic-angular';
 
 import { QuestionsProvider } from '../../providers/questions/questions';
 import { Question } from '../../models/question';
 import { NumToCharPipe } from '../../pipes/num-to-char-pipe';
+
+import { SummaryPage } from '../summary/summary';
 
 /*
   Generated class for the QuestionPage page.
@@ -19,31 +22,63 @@ import { NumToCharPipe } from '../../pipes/num-to-char-pipe';
 export class QuestionPage implements OnInit {
   questions: Question[] = [];
   currentIndex: number = 0;
-  currentQuestion: Question = new Question();
-  totalQuestions: number = 0;
   choiceLegend: number = 65; //this is the starting choice legend 'A'
-  constructor(private navCtrl: NavController, private questionsProvider: QuestionsProvider) {
-
+  constructor(private navCtrl: NavController, private questionsProvider: QuestionsProvider, menu: MenuController) {
+    menu.enable(false);
   }
 
   ngOnInit() {
     this.questionsProvider.generate().then(questions => {
       this.questions = questions;
-      this.currentQuestion = this.questions[0];
-      this.totalQuestions = this.questions.length;
     });
   }
 
+  currentQuestion(): Question {
+    return this.questions[this.currentIndex] || new Question();
+  }
+
+  totalQuestions(): number {
+    return this.questions.length;
+  }
+
+  disableNext(): boolean {
+    return this.currentIndex + 1 === this.totalQuestions();
+  }
+
+  disablePrev(): boolean {
+    return this.currentIndex === 0;
+  }
+
   nextQuestion() {
-    this.currentQuestion = this.questions[++this.currentIndex];
+    if (this.currentIndex + 1 === this.totalQuestions()) {
+      this.navCtrl.push(SummaryPage, {
+        questions: this.questions,
+        unansweredQuestions: this.unansweredQuestions(),
+        answeredQuestions: this.answeredQuestions(),
+        currentIndex: this.currentIndex
+      });
+      return;
+    }
+    ++this.currentIndex;
   }
 
   prevQuestion() {
-    this.currentQuestion = this.questions[--this.currentIndex];
+    if (this.currentIndex === 0) return;
+    --this.currentIndex;
   }
 
   selectAnswer(answer: string) {
-    this.currentQuestion.choice = answer;
+    this.currentQuestion().choice = answer;
+  }
+
+  //compute the unanswered questions
+  unansweredQuestions(): Question[]{
+    return _.filter(this.questions, question => _.isEmpty(question.choice));
+  }
+
+  //compute the answered questions
+  answeredQuestions(): Question[]{
+    return _.filter(this.questions, question => !_.isEmpty(question.choice));
   }
 
 }

@@ -6,13 +6,16 @@
 -->
 <ion-header>
     <ion-toolbar danger>
-        <ion-title>Question {{currentIndex + 1}}/{{totalQuestions}}</ion-title>
-        <ion-buttons start>
-            <button (click)="prevQuestion()">
+        <ion-title>Question {{currentIndex + 1}}/{{totalQuestions()}}</ion-title>
+        <ion-buttons start class="time-remaining">
+            <span>1:04:23</span>
+        </ion-buttons>
+        <ion-buttons end>
+            <button (click)="prevQuestion()" [disabled]="disablePrev()">
               <ion-icon name="arrow-back"></ion-icon>
             </button>
             <button (click)="nextQuestion()">
-              <ion-icon name="arrow-forward"></ion-icon>
+              <ion-icon [name]="totalQuestions() == currentIndex + 1 ? 'checkmark-circle-outline' : 'arrow-forward'"></ion-icon>
             </button>
             <button>
               <ion-icon name="more"></ion-icon>
@@ -24,9 +27,9 @@
 
 <ion-content padding>
     <ion-card class="question">
-        <ion-card-header class="text-wrap">{{currentQuestion.description}}</ion-card-header>
+        <ion-card-header class="text-wrap">{{currentQuestion().description}}</ion-card-header>
         <ion-list>
-            <button ion-item text-wrap *ngFor="let choice of currentQuestion.choices; let i = index" (click)="selectAnswer(choice)" [ngClass]="{'selected': choice == currentQuestion.choice}">
+            <button ion-item text-wrap *ngFor="let choice of currentQuestion().choices; let i = index" (click)="selectAnswer(choice)" [ngClass]="{'selected': choice == currentQuestion().choice}">
               <span class="legend" item-left>{{choiceLegend + i | NumToCharPipe}}</span>
                 {{choice}}
             </button>

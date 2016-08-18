@@ -4,6 +4,9 @@ import { StatusBar } from 'ionic-native';
 
 import { GeneratePage } from './pages/generate/generate';
 import { QuestionPage } from './pages/question/question';
+import { SummaryPage } from './pages/summary/summary';
+import { ReviewAnswersPage } from './pages/review-answers/review-answers';
+
 import { NumToCharPipe } from './pipes/num-to-char-pipe';
 
 @Component({
@@ -12,7 +15,7 @@ import { NumToCharPipe } from './pipes/num-to-char-pipe';
 class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = QuestionPage;
+  rootPage: any = GeneratePage;
 
   pages: Array<{title: string, component: any}>;
 

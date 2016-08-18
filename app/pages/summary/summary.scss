@@ -1,0 +1,24 @@
+.summary {
+    ion-grid {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    scroll-content {
+        display: table !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
+.remaining {
+    text-align: center;
+    h4 {
+        margin-top: 0;
+    }
+    .time {
+        font-size: 6rem;
+        font-weight: bolder;
+        color: color($colors, danger);
+    }
+}

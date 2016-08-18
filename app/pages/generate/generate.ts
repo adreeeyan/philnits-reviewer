@@ -4,6 +4,8 @@ import { NavController } from 'ionic-angular';
 import { Standard } from './standard';
 import { LogicCircuit } from './logic-circuit';
 
+import { QuestionPage } from '../question/question';
+
 /*
   Generated class for the GeneratePage page.
 
@@ -44,5 +46,9 @@ export class GeneratePage {
     new LogicCircuit("not.png", "NOT gate"),
     new LogicCircuit("tristate.png", "Three-state buffer (or tri-state buffer)")
   ]
+
+  start() {
+    this.navCtrl.push(QuestionPage);
+  }
 
 }

@@ -6,18 +6,22 @@
 // App Shared Sass variables belong in app.variables.scss.
 @import "../pages/generate/generate";
 @import "../pages/question/question";
+@import "../pages/summary/summary";
 //generate margins from http://stackoverflow.com/a/22655462/5866781
-@mixin offset-margin($margin, $value) {
-    margin-#{$margin}: $value;
+@mixin offset-bounds($bound, $direction, $value) {
+    #{$bound}-#{$direction}: $value;
 }
 
-@for $i from 1 through 100 {
-    @each $margin in top,
+@for $i from 0 through 100 {
+    @each $direction in top,
     left,
     bottom,
     right {
-        .margin-#{$margin}-#{$i} {
-            @include offset-margin($margin, 1px * $i)
+        .margin-#{$direction}-#{$i} {
+            @include offset-bounds(margin, $direction, 1px * $i)
+        }
+        .padding-#{$direction}-#{$i} {
+            @include offset-bounds(padding, $direction, 1px * $i)
         }
     }
 }
