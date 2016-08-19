@@ -1,12 +1,15 @@
 import * as _ from 'lodash';
 import { Component } from '@angular/core';
-import { NavController, MenuController, NavParams } from 'ionic-angular';
+import { NavController, MenuController, NavParams, PopoverController } from 'ionic-angular';
 
 import { QuestionsProvider } from '../../providers/questions/questions';
 import { Question } from '../../models/question';
 import { NumToCharPipe } from '../../pipes/num-to-char-pipe';
 
 import { SummaryPage } from '../summary/summary';
+
+//popover
+import { QuestionPopover } from '../question-popover/question-popover';
 
 /*
   Generated class for the QuestionPage page.
@@ -23,7 +26,8 @@ export class QuestionPage {
   questions: Question[] = [];
   currentIndex: number = 0;
   choiceLegend: number = 65; //this is the starting choice legend 'A'
-  constructor(private navCtrl: NavController, private navParams: NavParams, private questionsProvider: QuestionsProvider, menu: MenuController) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private questionsProvider: QuestionsProvider,
+    menu: MenuController, private popoverCtrl: PopoverController) {
     menu.enable(false);
   }
 
@@ -31,6 +35,28 @@ export class QuestionPage {
     this.questionsProvider.generate().then(questions => {
       this.questions = questions;
     });
+  }
+
+  //opening the popover
+  openPopover(event) {
+
+    //same with currentQuestion workaround
+    new Promise(resolve => {
+      let popover = this.popoverCtrl.create(QuestionPopover, {
+        questions: this.questions,
+        currentIndex: this.currentIndex,
+        unansweredQuestions: this.unansweredQuestions(),
+        answeredQuestions: this.answeredQuestions(),
+        questionPageResolver: resolve,
+        navCtrl: this.navCtrl
+      });
+      popover.present({
+        ev: event
+      });
+    }).then((index: number) => {
+      this.currentIndex = index;
+    });
+    
   }
 
   currentQuestion(): Question {

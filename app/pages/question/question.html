@@ -17,7 +17,7 @@
             <button (click)="nextQuestion()">
               <ion-icon [name]="totalQuestions() == currentIndex + 1 ? 'checkmark-circle-outline' : 'arrow-forward'"></ion-icon>
             </button>
-            <button>
+            <button (click)="openPopover($event)">
               <ion-icon name="more"></ion-icon>
             </button>
         </ion-buttons>

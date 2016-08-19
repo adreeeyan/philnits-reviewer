@@ -15,5 +15,8 @@
 }
 
 .selected {
-    background-color: color($colors, light);
+    background-color: color($colors, favorite);
+    .item-inner {
+        border-bottom: 0 !important;
+    }
 }
