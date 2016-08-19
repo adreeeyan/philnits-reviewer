@@ -14,8 +14,15 @@ import { Question } from '../../models/question';
 })
 export class ReviewAnswersPage {
   questions: Question[];
+  questionPageResolver: any;
   constructor(private navCtrl: NavController, private navParams: NavParams) {
     this.questions = this.navParams.get('questions');
+    this.questionPageResolver = this.navParams.get('questionPageResolver');
+  }
+
+  goToQuestion(index: number) {
+    this.questionPageResolver(index - 1);
+    this.navCtrl.popToRoot();
   }
 
 }

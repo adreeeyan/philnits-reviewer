@@ -16,14 +16,14 @@ import { QuestionPage } from '../question/question';
 export class UnansweredQuestionsPage {
 
   questions: Question[];
-  currentIndex: number;
+  questionPageResolver: any;
   constructor(private navCtrl: NavController, private navParams: NavParams) {
     this.questions = this.navParams.get('questions') || [];
-    this.currentIndex = this.navParams.get('currentIndex');
+    this.questionPageResolver = this.navParams.get('questionPageResolver');
   }
 
   goToQuestion(index: number) {
-    this.currentIndex = index;    
+    this.questionPageResolver(index - 1);
     this.navCtrl.popToRoot();
   }
 

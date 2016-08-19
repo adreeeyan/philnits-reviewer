@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
-import { Component, OnInit } from '@angular/core';
-import { NavController, MenuController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavController, MenuController, NavParams } from 'ionic-angular';
 
 import { QuestionsProvider } from '../../providers/questions/questions';
 import { Question } from '../../models/question';
@@ -19,15 +19,15 @@ import { SummaryPage } from '../summary/summary';
   providers: [QuestionsProvider],
   pipes: [NumToCharPipe]
 })
-export class QuestionPage implements OnInit {
+export class QuestionPage {
   questions: Question[] = [];
   currentIndex: number = 0;
   choiceLegend: number = 65; //this is the starting choice legend 'A'
-  constructor(private navCtrl: NavController, private questionsProvider: QuestionsProvider, menu: MenuController) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private questionsProvider: QuestionsProvider, menu: MenuController) {
     menu.enable(false);
   }
 
-  ngOnInit() {
+  ionViewLoaded() {
     this.questionsProvider.generate().then(questions => {
       this.questions = questions;
     });
@@ -51,15 +51,25 @@ export class QuestionPage implements OnInit {
 
   nextQuestion() {
     if (this.currentIndex + 1 === this.totalQuestions()) {
-      this.navCtrl.push(SummaryPage, {
-        questions: this.questions,
-        unansweredQuestions: this.unansweredQuestions(),
-        answeredQuestions: this.answeredQuestions(),
-        currentIndex: this.currentIndex
+
+      //passing a parameter from child to parent is a hard nut job
+      //a workaround is needed for it's still a feature request      
+      //http://stackoverflow.com/questions/38143454/ionic2-send-params-between-pages-when-clicking-on-the-return-nav-button-using
+      //what's happening here is before pushing the new page, we will add a promise so that we will know that it was closed
+      //and we will let the child resolve with the data needed
+      new Promise(resolve => {
+        this.navCtrl.push(SummaryPage, {
+          questions: this.questions,
+          unansweredQuestions: this.unansweredQuestions(),
+          answeredQuestions: this.answeredQuestions(),
+          questionPageResolver: resolve
+        });
+      }).then((index: number) => {
+        this.currentIndex = index;
       });
-      return;
+    } else {
+      ++this.currentIndex;      
     }
-    ++this.currentIndex;
   }
 
   prevQuestion() {

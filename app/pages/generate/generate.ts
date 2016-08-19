@@ -48,7 +48,7 @@ export class GeneratePage {
   ]
 
   start() {
-    this.navCtrl.push(QuestionPage);
+    this.navCtrl.setRoot(QuestionPage);
   }
 
 }

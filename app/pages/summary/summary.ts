@@ -4,6 +4,7 @@ import { NavController, NavParams, MenuController } from 'ionic-angular';
 import { Question } from '../../models/question';
 import { UnansweredQuestionsPage } from '../unanswered-questions/unanswered-questions';
 import { ReviewAnswersPage } from '../review-answers/review-answers';
+import { QuestionPage } from '../question/question';
 
 /*
   Generated class for the SummaryPage page.
@@ -18,26 +19,30 @@ export class SummaryPage{
   questions: Question[];
   unansweredQuestions: Question[];
   answeredQuestions: Question[];
-  currentIndex: number;
+  questionPageResolver: any;
   constructor(private navCtrl: NavController, private navParams: NavParams, menu: MenuController) {
     menu.enable(false);
     this.questions = this.navParams.get('questions') || [];
     this.unansweredQuestions = this.navParams.get('unansweredQuestions') || [];
     this.answeredQuestions = this.navParams.get('answeredQuestions') || [];
-    this.currentIndex= this.navParams.get('currentIndex')
+    this.questionPageResolver = this.navParams.get('questionPageResolver');
   }
 
   goToUnansweredQuestions() {
+    //send the questionPage resolve
+    //imagine sending it to the 35th level of a page (sigh)
     this.navCtrl.push(UnansweredQuestionsPage, {
       questions: this.unansweredQuestions,
-      currentIndex: this.currentIndex
+      questionPageResolver: this.questionPageResolver
     });
   }
 
   goToReviewAnswers() {
+    //send the questionPage resolve
+    //imagine sending it to the 35th level of a page (sigh)
     this.navCtrl.push(ReviewAnswersPage, {
       questions: this.answeredQuestions,
-      currentIndex: this.currentIndex
+      questionPageResolver: this.questionPageResolver
     });
   }
 
