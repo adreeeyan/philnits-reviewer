@@ -1,11 +1,12 @@
 import * as moment from 'moment';
 import { Component } from '@angular/core';
-import { NavController, NavParams, MenuController } from 'ionic-angular';
+import { NavController, NavParams, MenuController, AlertController } from 'ionic-angular';
 
 import { Question } from '../../models/question';
 import { UnansweredQuestionsPage } from '../unanswered-questions/unanswered-questions';
 import { ReviewAnswersPage } from '../review-answers/review-answers';
 import { QuestionPage } from '../question/question';
+import { ResultsPage } from '../results/results';
 
 import { TimerProvider } from '../../providers/timer/timer';
 
@@ -24,7 +25,7 @@ export class SummaryPage{
   answeredQuestions: Question[];
   questionPageResolver: any;
   constructor(private navCtrl: NavController, private navParams: NavParams,
-    menu: MenuController, private timerProvider: TimerProvider) {
+    menu: MenuController, private timerProvider: TimerProvider, private alertCtrl: AlertController) {
     menu.enable(false);
     this.questions = this.navParams.get('questions') || [];
     this.unansweredQuestions = this.navParams.get('unansweredQuestions') || [];
@@ -49,6 +50,40 @@ export class SummaryPage{
       unchangeable: this.isTestFinished,
       questions: this.answeredQuestions,
       questionPageResolver: this.questionPageResolver
+    });
+  }
+
+  showFinishConfirmation() {
+    let alert = this.alertCtrl.create({
+      title: 'Confirmation',
+      message: 'Are you sure you want to finish the exam?',
+      buttons: [
+        {
+          text: 'No'
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.endExam();
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  finishExam() {
+    if (this.isTestFinished) {
+      this.endExam();
+    } else {
+      this.showFinishConfirmation();
+    }
+  }
+  
+  endExam() {
+    //check answers
+    this.navCtrl.setRoot(ResultsPage, {
+      questions: this.questions
     });
   }
 

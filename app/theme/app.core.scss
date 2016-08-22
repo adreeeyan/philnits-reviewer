@@ -7,6 +7,7 @@
 @import "../pages/generate/generate";
 @import "../pages/question/question";
 @import "../pages/summary/summary";
+@import "../pages/results/results";
 //generate margins from http://stackoverflow.com/a/22655462/5866781
 @mixin offset-bounds($bound, $direction, $value) {
     #{$bound}-#{$direction}: $value;

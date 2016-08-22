@@ -1,0 +1,24 @@
+.results-page {
+    .summary {
+        ion-item {
+            padding-left: 0;
+            .item-inner {
+                margin-left: 0;
+            }
+            ion-icon {
+                color: color($colors, secondary);
+            }
+            .incorrect {
+                color: color($colors, danger);
+            }
+        }
+    }
+    .detailed {
+        ion-card-header {
+            background-color: color($colors, secondary);
+        }
+        .incorrect {
+            background-color: color($colors, danger);
+        }
+    }
+}

@@ -13,6 +13,7 @@ import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class TimerProvider {
   remaining: moment.Moment = moment();
+  remaining$: Observable<moment.Moment>;
   constructor(private http: Http) {}
 
   initTime() {
@@ -23,11 +24,12 @@ export class TimerProvider {
     duration += 1000;
     remaining.add(1, 'seconds');
 
-    return Observable.timer(0, 1000).map((run) => {
+    this.remaining$ = Observable.timer(0, 1000).map((run) => {
       remaining.subtract(1, 'seconds');
       this.remaining = remaining;
       return remaining;
     }).takeUntil(Observable.timer(duration));
+    return this.remaining$;
   }
 
   getTime() {

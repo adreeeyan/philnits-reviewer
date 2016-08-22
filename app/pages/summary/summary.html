@@ -29,7 +29,7 @@
             <ion-col>
                 <button class="margin-top-5" block danger (click)="goToUnansweredQuestions()">{{unansweredQuestions.length}} unanswered questions</button>
                 <button class="margin-top-5" block primary (click)="goToReviewAnswers()">Review answers</button>
-                <button class="margin-top-5" block favorite>PASS YOUR PAPER!</button>
+                <button class="margin-top-5" block favorite (click)="finishExam()">PASS YOUR PAPER!</button>
             </ion-col>
         </ion-row>
     </ion-grid>

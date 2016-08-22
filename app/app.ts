@@ -6,6 +6,7 @@ import { GeneratePage } from './pages/generate/generate';
 import { QuestionPage } from './pages/question/question';
 import { SummaryPage } from './pages/summary/summary';
 import { ReviewAnswersPage } from './pages/review-answers/review-answers';
+import { ResultsPage } from './pages/results/results';
 
 import { NumToCharPipe } from './pipes/num-to-char-pipe';
 
