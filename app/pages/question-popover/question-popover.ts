@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { Component } from '@angular/core';
-import { ViewController, App } from 'ionic-angular';
+import { ViewController, App, AlertController } from 'ionic-angular';
 
 import { Question } from '../../models/question';
 import { UnansweredQuestionsPage } from '../unanswered-questions/unanswered-questions';
@@ -23,7 +23,7 @@ export class QuestionPopover {
   answeredQuestions: Question[];
   questionPageResolver: any;
   currentIndex: number;
-  constructor(private viewCtrl: ViewController, private app: App) {
+  constructor(private viewCtrl: ViewController, private app: App, private alertCtrl: AlertController) {
     this.questions = this.viewCtrl.data.questions
     this.unansweredQuestions = this.viewCtrl.data.unansweredQuestions;
     this.answeredQuestions = this.viewCtrl.data.answeredQuestions;
@@ -33,6 +33,36 @@ export class QuestionPopover {
 
   close() {
     return this.viewCtrl.dismiss();
+  }
+
+  showQuestionsAlert() {
+    this.close().then(() => {
+      let alert = this.alertCtrl.create();
+      alert.setTitle("Go to...");
+
+      _.each(this.questions, question => {
+        alert.addInput({
+          type: 'radio',
+          label: question.position + '.) ' + question.description,
+          value: question.position.toString()
+        });
+      });
+      alert.addButton('Cancel');
+      alert.addButton({
+        text: 'GO',
+        handler: position => {
+          this.goToQuestion(parseInt(position, 10) - 1);
+        }
+      });
+      alert.present();
+    });
+  }
+
+  goToQuestion(position: number) {
+    if (_.isNaN(position)) {
+      return;
+    }
+    this.questionPageResolver(position);
   }
 
   goToSummary() {

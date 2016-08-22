@@ -16,8 +16,8 @@ export class TimerProvider {
   constructor(private http: Http) {}
 
   initTime() {
-    let duration = 2000; //9000000 is 150 minutes
-    let remaining = moment([2016, 1, 1, 0, 0, 2, 0]); //150 minutes
+    let duration = 9000000; //9000000 is 150 minutes
+    let remaining = moment([2016, 1, 1, 2, 30, 0, 0]); //150 minutes
 
     //add 1 second so that user will not be shocked o.o
     duration += 1000;
