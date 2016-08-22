@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import { Component } from '@angular/core';
 import { NavController, NavParams, MenuController } from 'ionic-angular';
 
@@ -6,6 +7,8 @@ import { UnansweredQuestionsPage } from '../unanswered-questions/unanswered-ques
 import { ReviewAnswersPage } from '../review-answers/review-answers';
 import { QuestionPage } from '../question/question';
 
+import { TimerProvider } from '../../providers/timer/timer';
+
 /*
   Generated class for the SummaryPage page.
 
@@ -13,14 +16,15 @@ import { QuestionPage } from '../question/question';
   Ionic pages and navigation.
 */
 @Component({
-  templateUrl: 'build/pages/summary/summary.html',
+  templateUrl: 'build/pages/summary/summary.html'
 })
 export class SummaryPage{
   questions: Question[];
   unansweredQuestions: Question[];
   answeredQuestions: Question[];
   questionPageResolver: any;
-  constructor(private navCtrl: NavController, private navParams: NavParams, menu: MenuController) {
+  constructor(private navCtrl: NavController, private navParams: NavParams,
+    menu: MenuController, private timerProvider: TimerProvider) {
     menu.enable(false);
     this.questions = this.navParams.get('questions') || [];
     this.unansweredQuestions = this.navParams.get('unansweredQuestions') || [];
@@ -32,6 +36,7 @@ export class SummaryPage{
     //send the questionPage resolve
     //imagine sending it to the 35th level of a page (sigh)
     this.navCtrl.push(UnansweredQuestionsPage, {
+      unchangeable: this.isTestFinished,
       questions: this.unansweredQuestions,
       questionPageResolver: this.questionPageResolver
     });
@@ -41,9 +46,18 @@ export class SummaryPage{
     //send the questionPage resolve
     //imagine sending it to the 35th level of a page (sigh)
     this.navCtrl.push(ReviewAnswersPage, {
+      unchangeable: this.isTestFinished,
       questions: this.answeredQuestions,
       questionPageResolver: this.questionPageResolver
     });
+  }
+
+  get remainingTime(): string {
+    return this.timerProvider.getTime().format('HH:mm:ss');
+  }
+
+  get isTestFinished(): boolean {
+    return this.remainingTime === '00:00:00';
   }
 
 }

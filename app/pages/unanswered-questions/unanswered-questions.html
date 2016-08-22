@@ -21,6 +21,6 @@
         <ion-card-content>
             {{question.description}}
         </ion-card-content>
-        <button favorite full class="margin-bottom-0" (click)="goToQuestion(question.position)">Answer</button>
+        <button favorite full class="margin-bottom-0" *ngIf="!unchangeable" (click)="goToQuestion(question.position)">Answer</button>
     </ion-card>
 </ion-content>

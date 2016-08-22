@@ -14,12 +14,13 @@ import { QuestionPage } from '../question/question';
   templateUrl: 'build/pages/unanswered-questions/unanswered-questions.html',
 })
 export class UnansweredQuestionsPage {
-
   questions: Question[];
   questionPageResolver: any;
+  unchangeable: boolean;
   constructor(private navCtrl: NavController, private navParams: NavParams) {
     this.questions = this.navParams.get('questions') || [];
     this.questionPageResolver = this.navParams.get('questionPageResolver');
+    this.unchangeable = this.navParams.get('unchangeable');    
   }
 
   goToQuestion(index: number) {

@@ -16,9 +16,12 @@
 <ion-content padding class="summary">
     <ion-grid>
         <ion-row class="remaining">
-            <ion-col>
+            <ion-col *ngIf="isTestFinished">
+                <span class="time">EXAM IS FINISHED</span>
+            </ion-col>
+            <ion-col *ngIf="!isTestFinished">
                 <h4>You still have</h4>
-                <span class="time">1:03:53</span>
+                <span class="time">{{remainingTime}}</span>
                 <h4>remaining</h4>
             </ion-col>
         </ion-row>

@@ -9,6 +9,8 @@ import { ReviewAnswersPage } from './pages/review-answers/review-answers';
 
 import { NumToCharPipe } from './pipes/num-to-char-pipe';
 
+import { TimerProvider } from './providers/timer/timer';
+
 @Component({
   templateUrl: 'build/app.html',
 })
@@ -44,4 +46,4 @@ class MyApp {
   }
 }
 
-ionicBootstrap(MyApp);
+ionicBootstrap(MyApp, [TimerProvider]);

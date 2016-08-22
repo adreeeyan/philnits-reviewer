@@ -17,6 +17,6 @@
     <ion-card class="question" *ngFor="let question of questions">
         <ion-card-header class="text-wrap"><strong>QUESTION #{{question.position}}.</strong> {{question.description}}</ion-card-header>
         <ion-card-content class="text-wrap padding-top-13">{{question.choice}}</ion-card-content>
-        <button favorite full class="margin-bottom-0" (click)="goToQuestion(question.position)">Change</button>
+        <button favorite full class="margin-bottom-0" *ngIf="!unchangeable" (click)="goToQuestion(question.position)">Change</button>
     </ion-card>
 </ion-content>
