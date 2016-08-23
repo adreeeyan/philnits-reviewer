@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { Component } from '@angular/core';
 import { NavController, MenuController, NavParams, PopoverController, AlertController } from 'ionic-angular';
+import { Subscription } from 'rxjs/Rx';
 
 import { QuestionsProvider } from '../../providers/questions/questions';
 import { TimerProvider } from '../../providers/timer/timer';
@@ -29,6 +30,7 @@ export class QuestionPage {
   currentIndex: number = 0;
   choiceLegend: number = 65; //this is the starting choice legend 'A'
   private _remainingTime: moment.Moment = moment();
+  private _remainingTime$: Subscription;
   constructor(private navCtrl: NavController, private navParams: NavParams,
     private questionsProvider: QuestionsProvider, private timerProvider: TimerProvider,
     menu: MenuController, private popoverCtrl: PopoverController, private alertCtrl: AlertController) {
@@ -39,7 +41,7 @@ export class QuestionPage {
     this.questionsProvider.generate().then(questions => {
       this.questions = questions;
     });
-    this.timerProvider.initTime().subscribe(
+    this._remainingTime$ = this.timerProvider.initTime().subscribe(
       (remaining: moment.Moment) => {
         this._remainingTime = remaining;
       },
@@ -50,6 +52,10 @@ export class QuestionPage {
         this.showEndAlert();
       }
     );
+  }
+
+  ionViewDidUnload() {
+    this._remainingTime$.unsubscribe();
   }
 
   //opening the popover

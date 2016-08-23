@@ -24,6 +24,7 @@ export class TimerProvider {
     duration += 1000;
     remaining.add(1, 'seconds');
 
+    this.remaining = remaining; //reset the values
     this.remaining$ = Observable.timer(0, 1000).map((run) => {
       remaining.subtract(1, 'seconds');
       this.remaining = remaining;
