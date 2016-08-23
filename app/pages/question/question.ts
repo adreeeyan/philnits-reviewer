@@ -35,7 +35,7 @@ export class QuestionPage {
     menu.enable(false);
   }
 
-  ionViewWillEnter() {
+  ionViewLoaded() {
     this.questionsProvider.generate().then(questions => {
       this.questions = questions;
     });
